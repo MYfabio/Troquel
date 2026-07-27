@@ -858,32 +858,33 @@ SIEMPRE confirma qué has cambiado.`;
         </div>
 
         {/* GEMINI CHAT */}
-        <div style={{display:"flex",flexDirection:"column",height:"280px",borderTop:`1px solid ${C.bL}`,background:C.bg}}>
-          <div style={{flex:1,overflowY:"auto",padding:"12px 16px",fontSize:12,fontFamily:M,lineHeight:1.6}}>
-            {aiChat.length===0&&<div style={{color:C.muted,fontStyle:"italic"}}>Cuéntale qué quieres cambiar (color, tamaño, rotación...)</div>}
+        <div style={{display:"flex",flexDirection:"column",height:"420px",borderTop:`2px solid ${C.accent}`,background:C.bg}}>
+          <div style={{padding:"12px 16px",borderBottom:`1px solid ${C.bL}`,fontWeight:600,fontSize:13,color:C.text}}>✨ Asistente de diseño (Gemini)</div>
+          <div style={{flex:1,overflowY:"auto",padding:"16px",fontSize:13,fontFamily:M,lineHeight:1.7}}>
+            {aiChat.length===0&&<div style={{color:C.muted,fontStyle:"italic"}}>Cuéntale qué quieres cambiar (color, tamaño, rotación, posición...)</div>}
             {aiChat.map((msg,i)=>(
-              <div key={i} style={{marginBottom:10,textAlign:msg.role==="user"?"right":"left"}}>
-                <div style={{display:"inline-block",maxWidth:"90%",padding:"8px 12px",background:msg.role==="user"?C.accent:"#e5e5e7",color:msg.role==="user"?"#fff":C.text,borderRadius:12,wordWrap:"break-word"}}>
+              <div key={i} style={{marginBottom:12,textAlign:msg.role==="user"?"right":"left"}}>
+                <div style={{display:"inline-block",maxWidth:"85%",padding:"10px 14px",background:msg.role==="user"?C.accent:"#e5e5e7",color:msg.role==="user"?"#fff":C.text,borderRadius:14,wordWrap:"break-word",fontSize:13}}>
                   {msg.text}
                 </div>
               </div>
             ))}
-            {aiLoading&&<div style={{color:C.muted}}>⏳ Gemini está pensando...</div>}
+            {aiLoading&&<div style={{color:C.accent,fontWeight:600}}>⏳ Gemini pensando...</div>}
             <div ref={aiChatEndRef}/>
           </div>
-          <div style={{display:"flex",gap:8,padding:"10px 12px",borderTop:`1px solid ${C.bL}`,background:"#fff"}}>
+          <div style={{display:"flex",gap:8,padding:"12px 14px",borderTop:`1px solid ${C.bL}`,background:"#fff"}}>
             <input
               value={aiInput}
               onChange={e=>setAiInput(e.target.value)}
               onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendToGemini();}}}
-              placeholder="Ej: fondo azul, hazlo más grande..."
+              placeholder="Ej: fondo azul, gira 45°, más grande..."
               disabled={aiLoading}
-              style={{flex:1,padding:"8px 10px",border:`1px solid ${C.border}`,borderRadius:8,fontSize:12,fontFamily:F,fontWeight:500,outline:"none"}}
+              style={{flex:1,padding:"10px 12px",border:`1px solid ${C.border}`,borderRadius:8,fontSize:13,fontFamily:F,fontWeight:500,outline:"none"}}
             />
             <button
               onClick={sendToGemini}
               disabled={aiLoading||!aiInput.trim()}
-              style={{padding:"8px 14px",background:C.accent,color:"#fff",border:"none",borderRadius:8,fontSize:11,fontWeight:600,cursor:aiLoading||!aiInput.trim()?"not-allowed":"pointer",opacity:aiLoading||!aiInput.trim()?0.5:1}}
+              style={{padding:"10px 16px",background:C.accent,color:"#fff",border:"none",borderRadius:8,fontSize:12,fontWeight:700,cursor:aiLoading||!aiInput.trim()?"not-allowed":"pointer",opacity:aiLoading||!aiInput.trim()?0.5:1}}
             >
               ↑
             </button>
