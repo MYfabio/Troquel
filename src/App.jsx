@@ -548,7 +548,7 @@ SIEMPRE confirma qué has cambiado.`;
     setHoverCur(hit.corner===0||hit.corner===3?"nwse-resize":"nesw-resize");
   }
 
-  const OPTS=[...TPLS.map(t=>({value:t.id,label:t.name,sub:t.sub})),{divider:true},{value:"custom",label:"Nueva plantilla",sub:"Subir archivo"}];
+  const OPTS=[...TPLS.map(t=>({value:t.id,label:t.name,sub:t.sub}))];
 
   // make built-in templates transparent so the CMYK bg color shows through
   function prepTplSvg(svg){
@@ -682,13 +682,15 @@ SIEMPRE confirma qué has cambiado.`;
             }}>
               <option value="" disabled>Seleccionar plantilla…</option>
               {TPLS.map(t=><option key={t.id} value={t.id}>{t.name} — {t.sub}</option>)}
-              <option value="custom">+ Nueva plantilla (subir archivo)</option>
             </select>
+            <button onClick={()=>handleTplSelect("custom")} style={{width:"100%",marginTop:10,padding:"11px 12px",background:"#fff3cd",border:`1.5px solid #ffc107`,borderRadius:8,fontSize:13,fontFamily:F,fontWeight:600,color:"#856404",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+              <Ico d={IC.up} sz={14}/>+ Subir tu propia plantilla
+            </button>
             {showCustom&&(
-              <label style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",border:`1.5px dashed ${custImg?C.green:C.border}`,borderRadius:9,cursor:"pointer",background:custImg?"rgba(52,199,89,0.05)":"#fafafa",marginTop:10}}>
+              <label style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",border:`2px dashed ${custImg?C.green:C.accent}`,borderRadius:9,cursor:"pointer",background:custImg?"rgba(52,199,89,0.08)":"rgba(0,113,227,0.05)",marginTop:10}}>
                 <input type="file" accept=".png,.jpg,.jpeg,.svg" style={{display:"none"}} onChange={e=>loadFile(e,(img,src,name)=>{setCustImg(img);setCustName(name);})}/>
-                <Ico d={custImg?IC.chk:IC.up} sz={14}/>
-                <span style={{fontSize:13,fontWeight:500,color:custImg?C.green:C.text}}>{custImg?`✓ ${custName}`:"Subir plantilla…"}</span>
+                <Ico d={custImg?IC.chk:IC.up} sz={16}/>
+                <span style={{fontSize:13,fontWeight:600,color:custImg?C.green:C.accent}}>{custImg?`✓ ${custName}`:"Arrastra o haz clic para subir"}</span>
               </label>
             )}
           </div>
