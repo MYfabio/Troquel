@@ -11,7 +11,7 @@ npm run dev
 
 Para usar Gemini en local, crea un archivo `.env`:
 ```
-VITE_GEMINI_API_KEY=tu_api_key_aqui
+GEMINI_API_KEY=tu_api_key_aqui
 ```
 
 ## Desplegar en Railway con Gemini
@@ -34,7 +34,7 @@ git push -u origin main
 1. En Railway: **New Project → Deploy from GitHub repo** y elige tu repo.
 2. Railway detecta Node automáticamente (Nixpacks). El `railway.json` ya configura build y start.
 3. Una vez desplegado, ve a **Settings → Variables**.
-4. **Add Variable** → Name: `VITE_GEMINI_API_KEY` → Value: `tu_key_aqui`
+4. **Add Variable** → Name: `GEMINI_API_KEY` → Value: `tu_key_aqui`
 5. Railway redeploy automático en unos segundos.
 6. Pulsa **Generate Domain** en Settings → Networking para obtener la URL.
 
@@ -50,5 +50,5 @@ Gemini entiende y ejecuta los cambios automáticamente.
 ## Notas técnicas
 - La exportación a PDF carga jsPDF desde CDN (no requiere dependencia npm).
 - No hay backend: es una SPA estática + API de Gemini.
-- El chat usa el modelo `gemini-2.0-flash` de Google (rápido y gratis con límites).
+- El chat usa el modelo de Gemini indicado en `GEMINI_MODEL` (por defecto gemini-3.6-flash) (rápido y gratis con límites).
 # Clean build

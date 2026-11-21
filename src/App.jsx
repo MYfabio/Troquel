@@ -166,7 +166,6 @@ export default function App(){
   const [aiLoading,setAiLoading]=useState(false);
   const aiChatEndRef=useRef(null);
 
-  const GEMINI_KEY=import.meta.env.VITE_GEMINI_API_KEY;
   const SYSTEM_PROMPT=`Eres un asistente especializado en diseño de packaging con troqueles ABELLAPACK.
 Tu trabajo es entender lo que el usuario quiere cambiar y ejecutarlo.
 
@@ -187,8 +186,6 @@ SIEMPRE confirma qué has cambiado.`;
 
   async function sendToGemini(){
     if(!aiInput.trim())return;
-    if(!GEMINI_KEY){alert("⚠️ Falta API key (VITE_GEMINI_API_KEY en Railway)");return;}
-    
     const newMsg={role:"user",text:aiInput};
     setAiChat(prev=>[...prev,newMsg]);
     setAiInput("");
@@ -196,17 +193,14 @@ SIEMPRE confirma qué has cambiado.`;
 
     try{
       const conv=aiChat.map(m=>`${m.role==="user"?"Usuario":"IA"}: ${m.text}`).join("\n")+"\nUsuario: "+aiInput;
-      const res=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+GEMINI_KEY,{
+      const res=await fetch("/api/chat",{
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          system_instruction:{parts:[{text:SYSTEM_PROMPT}]},
-          contents:[{parts:[{text:conv}]}]
-        })
+        body:JSON.stringify({system:SYSTEM_PROMPT,conversa:conv})
       });
       if(!res.ok)throw new Error("Gemini API error: "+res.status);
       const data=await res.json();
-      const aiResp=(data.candidates?.[0]?.content?.parts?.[0]?.text||"No entiendo").trim();
+      const aiResp=(data.text||"No entiendo").trim();
       
       // parse JSON from response
       let changes={};
